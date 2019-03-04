@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'my-dream-app';
+  
+  constructor (private httpService: HttpClient) { }
+  arrTowns: string [];
+
+  getTowns() {
+    this.httpService.get('http://ukpubs.co.uk/json/towns.php').subscribe(
+      data => {
+        this.arrTowns = data as string [];	 // FILL THE ARRAY WITH DATA.
+      },
+      (err: HttpErrorResponse) => {
+        console.log (err.message);
+      }
+    );
+  }
+
+  ngOnInit () {
+  }
+
 }
